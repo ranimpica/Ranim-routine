@@ -243,7 +243,7 @@ h1 em { font-style:italic; color:var(--gold); }
       <div class="day-count"><span id="sDone">0</span> / <span id="sTotal">0</span> tasks</div>
     </div>
     <button class="tbtn" id="resetBtn">Reset Ticks</button>
-    <button class="tbtn danger" id="clearBtn">Clear All</button>
+    <button class="tbtn danger" id="clearBtn">Clear This Day</button>
   </div>
 
   <div class="pillars" id="pillars"></div>
@@ -623,15 +623,10 @@ function doReset(){
 }
 
 function doClear(){
-  var keys=[];
-  try{ for(var i=0;i<localStorage.length;i++) keys.push(localStorage.key(i)); }catch(e){}
-  for(var i=0;i<keys.length;i++){
-    var k=keys[i];
-    if(k&&(k.indexOf('t_')===0||k.indexOf('c_')===0||k.indexOf('m_')===0||k==='streak'||k==='clip')){
-      lsDel(k);
-    }
-  }
-  toast('All data cleared');
+  lsDel('t_'+dStr(viewDate));
+  lsDel('c_'+dStr(viewDate));
+  snap(viewDate);
+  toast('Day cleared');
   render();
 }
 
